@@ -1,19 +1,16 @@
-﻿//using Application.Services;
-//using Domain.Interfaces;
-//using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Services;
+using Domain.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
 {
-    //public static class ConfigureServices
-    //{
-    //    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
-    //    {
-    //        services.AddScoped<ILocationService, LocationService>();
-    //        services.AddScoped<IHotelService, HotelService>();
-    //        services.AddScoped<IRoomService, RoomService>();
-    //        services.AddScoped<IBookingService, BookingService>();
+    public static class ConfigureServices
+    {
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            services.AddScoped<IProductService, ProductService>();
 
-    //        return services;
-    //    }
-    //}
+            return services;
+        }
+    }
 }
