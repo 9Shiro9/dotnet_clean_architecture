@@ -1,7 +1,8 @@
-﻿using Domain.Interfaces;
+﻿using Application.Interfaces;
+using Application.Repositories;
 using Infrastructure.Common;
-using Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
+using Infrastructure.Data;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +30,10 @@ namespace Infrastructure
 
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IBaseRepository<>), typeof(EfBaseRepository<>));
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
+            services.AddScoped<IProductRepository,ProductRepository>();
+            services.AddScoped<ICategoryRepository,CategoryRepository>();
             return services;
         }
     }
