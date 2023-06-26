@@ -10,7 +10,7 @@ namespace Domain.Entities
         public decimal Price { get; set; }
         public string CategoryId { get; set; }
         public virtual Category Category { get; set; }
-
+        public Product() { ProductId = Guid.NewGuid().ToString(); }
         public Product(string _code, string _description, decimal _price, string _categoryId)
         {
             ProductId = Guid.NewGuid().ToString();

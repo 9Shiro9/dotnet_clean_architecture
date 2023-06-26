@@ -19,5 +19,13 @@ namespace Infrastructure.Repositories
                 .ToListAsync();
 
         }
+
+        public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(string categoryId)
+        {
+            return await _dbContext.Products
+                .Include(x => x.Category)
+                .Where(x => x.CategoryId == categoryId)
+                .ToListAsync();
+        }
     }
 }

@@ -8,11 +8,13 @@ namespace Domain.Entities
         public string Code { get; set; }
         public string Description { get; set; }
         public virtual IEnumerable<Product> Products { get; set; }
+        public Category() { CategoryId = Guid.NewGuid().ToString(); }
         public Category(string _code, string _description)
         {
             CategoryId = Guid.NewGuid().ToString();
             Code = _code;
             Description = _description;
+            CreatedDate = DateTime.Now;
         }
     }
 }
