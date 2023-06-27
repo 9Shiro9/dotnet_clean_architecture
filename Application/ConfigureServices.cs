@@ -1,5 +1,5 @@
-﻿using Application.Services;
-using Domain.Interfaces;
+﻿using Application.Interfaces;
+using Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
@@ -9,6 +9,8 @@ namespace Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IProductService, ProductService>();
+
+            //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
         }

@@ -1,5 +1,5 @@
-﻿using Application.Interfaces;
-using Domain.Common;
+﻿using Domain.Common;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

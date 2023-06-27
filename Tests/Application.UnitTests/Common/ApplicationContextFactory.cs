@@ -6,6 +6,8 @@ namespace Application.UnitTests.Common
 {
     public class ApplicationContextFactory
     {
+        protected ApplicationContextFactory() { }
+
         public static ApplicationDbContext Create()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()

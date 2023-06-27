@@ -1,11 +1,15 @@
 ﻿using Application.Interfaces;
-using Application.Repositories;
+using Domain.Interfaces;
 using Infrastructure.Common;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+
 
 namespace Infrastructure
 {
@@ -20,10 +24,10 @@ namespace Infrastructure
                 options.UseSqlServer(connectionString));
 
 
-            //services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
-            //.AddEntityFrameworkStores<ApplicationDbContext>()
-            //.AddDefaultUI()
-            //.AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
 
             return services;
         }

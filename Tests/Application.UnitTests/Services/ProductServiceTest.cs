@@ -1,14 +1,13 @@
-﻿using Application.Services;
+﻿using Application.Interfaces;
+using Application.Services;
 using Application.UnitTests.Common;
-using Domain.Entities;
-using Domain.Interfaces;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 
 namespace Application.UnitTests.Services
 {
-    public class ProductServiceTest : IDisposable
+    public class ProductServiceTest
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly Mock<ILogger<UnitOfWork>> _unitOfWorkLogger;
@@ -27,26 +26,6 @@ namespace Application.UnitTests.Services
                 _productServiceLoger.Object);
         }
 
-        [Fact]
-        public async void AddCategoryAsync_and_GetCategoriesAsync_Should_Return_Categories()
-        {
-            //Arrange
-            var category = new Category("c001_code", "c001_desp");
 
-
-            //Act
-            await _productService.AddCategoryAsync(category);
-
-            var categories = await _productService.GetCategoriesAsync();
-
-            //Assert
-            categories.ShouldNotBe(null);
-            categories.Count().ShouldBe(1);
-        }
-
-        public void Dispose()
-        {
-            _dbContext.Dispose();
-        }
     }
 }

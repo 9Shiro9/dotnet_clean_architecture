@@ -1,7 +1,6 @@
-﻿using Application.Repositories;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -9,23 +8,6 @@ namespace Infrastructure.Repositories
     {
         public ProductRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-        }
-
-        public async Task<IEnumerable<Product>> GetProductsByCategoryCodeAsync(string categoryCode)
-        {
-            return await _dbContext.Products
-                .Include(x => x.Category)
-                .Where(x => x.Category.Code == categoryCode)
-                .ToListAsync();
-
-        }
-
-        public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(string categoryId)
-        {
-            return await _dbContext.Products
-                .Include(x => x.Category)
-                .Where(x => x.CategoryId == categoryId)
-                .ToListAsync();
         }
     }
 }
