@@ -15,3 +15,12 @@ This layer contains all application logic. It is dependent on the domain layer, 
 This layer contains classes for accessing external resources such as file systems, web services, smtp, and so on. These classes should be based on interfaces defined within the application layer.
 
 ### WebAPI
+
+
+### Database Migrations
+```
+dotnet ef migrations add initmigration --context ApplicationDbContext --project .\Infrastructure\Infrastructure.csproj --startup-project .\WebAPI\WebAPI.csproj
+```
+```
+dotnet ef database update --context ApplicationDbContext --project .\Infrastructure\Infrastructure.csproj --startup-project .\WebAPI\WebAPI.csproj
+```
