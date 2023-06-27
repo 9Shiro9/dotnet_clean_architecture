@@ -1,8 +1,5 @@
-using Infrastructure;
-using Infrastructure.Identity;
 using Application;
-using Domain;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Infrastructure;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 

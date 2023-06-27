@@ -5,6 +5,7 @@ namespace Infrastructure.Identity
 {
     public class IdentitySeed
     {
+        protected IdentitySeed() { }
         public static async Task SeedAsync(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
 
