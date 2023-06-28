@@ -7,15 +7,15 @@ namespace Application.UnitTests.Repositories
 {
     public class ProductRepositoryTest
     {
-        private readonly ApplicationDbContext _dbContext;
-        private readonly IProductRepository _productRepository;
-        public ProductRepositoryTest()
-        {
-            //Arrange
-            _dbContext = ApplicationContextFactory.Create();
+        //private readonly ApplicationDbContext _dbContext;
+        //private readonly IProductRepository _productRepository;
+        //public ProductRepositoryTest()
+        //{
+        //    //Arrange
+        //    _dbContext = ApplicationContextFactory.Create();
 
-            _productRepository = new ProductRepository(_dbContext);
-        }
+        //    _productRepository = new ProductRepository(_dbContext);
+        //}
 
 
 

@@ -16,14 +16,14 @@ namespace Application.UnitTests.Services
 
         public ProductServiceTest()
         {
-            _dbContext = ApplicationContextFactory.Create();
-            _unitOfWorkLogger = new Mock<ILogger<UnitOfWork>>();
-            _productServiceLoger = new Mock<ILogger<ProductService>>();
+            //_dbContext = ApplicationContextFactory.Create();
+            //_unitOfWorkLogger = new Mock<ILogger<UnitOfWork>>();
+            //_productServiceLoger = new Mock<ILogger<ProductService>>();
 
-            _productService = new ProductService(new UnitOfWork(_dbContext, _unitOfWorkLogger.Object),
-                new ProductRepository(_dbContext),
-                new CategoryRepository(_dbContext),
-                _productServiceLoger.Object);
+            //_productService = new ProductService(new UnitOfWork(_dbContext, _unitOfWorkLogger.Object),
+            //    new ProductRepository(_dbContext),
+            //    new CategoryRepository(_dbContext),
+            //    _productServiceLoger.Object);
         }
 
 

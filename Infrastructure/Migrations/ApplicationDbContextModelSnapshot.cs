@@ -22,21 +22,6 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<string>("CategoriesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProductsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("CategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("CategoryProduct");
-                });
-
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Property<string>("Id")
@@ -60,20 +45,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "7b52ba0c-f645-41b2-ae6e-6ecfc991b670",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Electronics"
-                        },
-                        new
-                        {
-                            Id = "ffb97e04-ac5e-461c-a7e9-f649ac17ac43",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Clothing"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
@@ -106,24 +77,33 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "f0f94f80-5dde-404b-85ec-714374c66f4f",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "High-end smartphone with advanced features",
-                            Name = "Smartphone",
-                            Price = 999.99m
-                        },
-                        new
-                        {
-                            Id = "be9f875e-a22c-40b3-8469-f4e4338f391b",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Comfortable cotton t-shirt",
-                            Name = "T-Shirt",
-                            Price = 19.99m
-                        });
+            modelBuilder.Entity("Domain.Entities.ProductCategory", b =>
+                {
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("Domain.Entities.Variant", b =>
@@ -161,35 +141,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Variants");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "82498b8f-c30f-4a78-936b-aebda3b907ec",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Black",
-                            Price = 999.99m,
-                            ProductId = "f0f94f80-5dde-404b-85ec-714374c66f4f",
-                            Stock = 10
-                        },
-                        new
-                        {
-                            Id = "f6a48942-90c9-4761-92fa-f0ae9943e86a",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "White",
-                            Price = 999.99m,
-                            ProductId = "f0f94f80-5dde-404b-85ec-714374c66f4f",
-                            Stock = 5
-                        },
-                        new
-                        {
-                            Id = "5f3a3592-782c-4447-b04f-8e5262a9989c",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Blue",
-                            Price = 19.99m,
-                            ProductId = "be9f875e-a22c-40b3-8469-f4e4338f391b",
-                            Stock = 20
-                        });
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.ApplicationRole", b =>
@@ -389,19 +340,23 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryProduct", b =>
+            modelBuilder.Entity("Domain.Entities.ProductCategory", b =>
                 {
-                    b.HasOne("Domain.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.Variant", b =>
@@ -465,8 +420,15 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Navigation("ProductCategories");
+                });
+
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
+                    b.Navigation("ProductCategories");
+
                     b.Navigation("Variants");
                 });
 #pragma warning restore 612, 618
