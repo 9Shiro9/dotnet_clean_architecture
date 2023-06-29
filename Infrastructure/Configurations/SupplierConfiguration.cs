@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Configurations
 {
-    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<Supplier> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.ProductCategories).WithOne(x => x.Category);
+            builder.HasMany(x => x.Products).WithOne(x => x.Supplier);
         }
     }
 

@@ -12,8 +12,8 @@ namespace Infrastructure.Configurations
 
             builder.Property(p => p.Price).HasPrecision(18, 2);
 
-            builder.HasMany<ProductCategory>(c => c.ProductCategories).WithOne(x => x.Product);
-            builder.HasMany<Variant>(x => x.Variants).WithOne(x => x.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne<Supplier>(s => s.Supplier).WithMany(p => p.Products);
+            builder.HasMany<PurchaseOrderItem>(x => x.PurchaseOrderItems).WithOne(x => x.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

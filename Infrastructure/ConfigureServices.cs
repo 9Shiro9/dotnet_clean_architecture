@@ -37,7 +37,6 @@ namespace Infrastructure
             services.AddScoped(typeof(IBaseRepository<>), typeof(EfBaseRepository<>));
             services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddScoped<IProductRepository,ProductRepository>();
-            services.AddScoped<ICategoryRepository,CategoryRepository>();
             return services;
         }
     }
