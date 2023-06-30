@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 
 namespace Application.Services
 {
@@ -42,7 +43,11 @@ namespace Application.Services
 
         public async Task<IEnumerable<Product>> GetProductsAsync()
         {
-            return await _productRepository.GetListAsync();
+            var include = new List<Expression<Func<Product, object>>>()
+            {
+                s => s.Supplier
+            };
+            return await _productRepository.GetListAsync(include);
         }
 
         public async Task<IEnumerable<Product>> GetProductsBySupplierIdAsync(string supplierId)

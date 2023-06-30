@@ -70,6 +70,15 @@ namespace Infrastructure.Common
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
+        public async Task<IReadOnlyList<T>> GetListAsync(List<Expression<Func<T, object>>> includes)
+        {
+            IQueryable<T> query = _dbContext.Set<T>();
+
+
+            if (includes != null) query = includes.Aggregate(query, (current, include) => current.Include(include));
+
+            return await query.ToListAsync();
+        }
         public async Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbContext.Set<T>().Where(predicate).ToListAsync();
@@ -126,7 +135,6 @@ namespace Infrastructure.Common
         {
             return _dbContext.Set<T>().Find(id);
         }
-
         #endregion
     }
 }

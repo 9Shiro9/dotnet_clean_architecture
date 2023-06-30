@@ -25,6 +25,7 @@ namespace Domain.Interfaces
         #endregion
 
         Task<IReadOnlyList<T>> GetListAsync();
+        Task<IReadOnlyList<T>> GetListAsync(List<Expression<Func<T, object>>> includes);
         Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate);
         Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate,string includeString);
         Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeString,bool disableTracking);
