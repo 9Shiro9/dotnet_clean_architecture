@@ -33,7 +33,11 @@ namespace Domain.Interfaces
 
         Task<T> GetByIdAsync(object Id);
         T GetById(object id);
-        
+
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> includes);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate,string includeString);
+
         IQueryable Queryable();
     }
 }

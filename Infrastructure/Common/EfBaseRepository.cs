@@ -2,6 +2,7 @@
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Common
 {
@@ -74,7 +75,6 @@ namespace Infrastructure.Common
         {
             IQueryable<T> query = _dbContext.Set<T>();
 
-
             if (includes != null) query = includes.Aggregate(query, (current, include) => current.Include(include));
 
             return await query.ToListAsync();
@@ -134,6 +134,29 @@ namespace Infrastructure.Common
         public T GetById(object id)
         {
             return _dbContext.Set<T>().Find(id);
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> includes)
+        {
+            IQueryable<T> query = _dbContext.Set<T>();
+
+            if (includes != null) query = includes.Aggregate(query, (current, include) => current.Include(include));
+
+            return await query.FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, string includeString)
+        {
+            IQueryable<T> query = _dbContext.Set<T>();
+
+            if (!string.IsNullOrWhiteSpace(includeString)) query = query.Include(includeString);
+
+            return await query.FirstOrDefaultAsync(predicate);
         }
         #endregion
     }

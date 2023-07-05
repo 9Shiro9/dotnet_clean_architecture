@@ -15,6 +15,9 @@ builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddInfrastructure();
 builder.Services.AddApplicationServices();
 
+builder.Services.AddSwaggerGen( config => { 
+     config.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Sample Inventory API", Version = "v1" });
+    });
 
 
 var app = builder.Build();
@@ -27,7 +30,7 @@ using (var scope = app.Services.CreateScope())
         var userManager = scopedProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scopedProvider.GetRequiredService<RoleManager<ApplicationRole>>();
         var identityContext = scopedProvider.GetRequiredService<ApplicationDbContext>();
-        //await IdentitySeed.SeedAsync(identityContext, userManager, roleManager);
+        await IdentitySeed.SeedAsync(identityContext, userManager, roleManager);
     }
     catch (Exception ex)
     {
@@ -43,5 +46,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthorization();
+app.MapControllers();
 app.Run();

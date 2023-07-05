@@ -22,6 +22,8 @@ namespace Infrastructure
 
             SeedData.Seed(builder);
 
+            
+
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

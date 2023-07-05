@@ -12,8 +12,6 @@ namespace Application
             services.AddScoped<ISupplierService,SupplierService>();
             services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
 
-            //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
             return services;
         }
     }

@@ -24,10 +24,10 @@ namespace Infrastructure.Data
             var order_1 = new PurchaseOrder { Id = Guid.NewGuid().ToString(), OrderNumber = "0001", OrderDate = DateTime.Now };
             var order_items_1 = new[] { new PurchaseOrderItem{ Id= Guid.NewGuid().ToString(), PurchaseOrderId = order_1.Id, ProductId = product_1.Id, UnitPrice = product_1.Price, Quantity = 2, TotalPrice = 2 * product_1.Price },
                 new PurchaseOrderItem{ Id= Guid.NewGuid().ToString(), PurchaseOrderId = order_1.Id, ProductId = product_2.Id, UnitPrice = product_2.Price, Quantity = 2, TotalPrice = 2 * product_2.Price } };
-
-            order_1.PurchaseOrderItems = order_items_1;
+           
 
             builder.Entity<PurchaseOrder>().HasData(order_1);
+            builder.Entity<PurchaseOrderItem>().HasData(order_items_1);
         }
     }
 }
