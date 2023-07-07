@@ -2,6 +2,8 @@ using Application;
 using Infrastructure;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using WebAPI.ServicesConfig;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,17 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddInfrastructure();
 builder.Services.AddApplicationServices();
-
-builder.Services.AddSwaggerGen( config => { 
-     config.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Sample Inventory API", Version = "v1" });
-    });
+builder.Services.AddLocalizationService();
+builder.Services.AddSwaggerGenService();
 
 
 var app = builder.Build();
+
+var localizeOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(localizeOptions.Value);
 
 using (var scope = app.Services.CreateScope())
 {
@@ -46,6 +48,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

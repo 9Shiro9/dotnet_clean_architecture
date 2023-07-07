@@ -4,20 +4,23 @@ using Infrastructure.Common;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace Infrastructure
 {
     public static class ConfigureServices
     {
-        public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration _configuration)
         {
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -29,6 +32,30 @@ namespace Infrastructure
             .AddDefaultUI()
             .AddDefaultTokenProviders();
 
+            // Adding Authentication  
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            // Adding Jwt Bearer  
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = _configuration["JWT:Issuer"],
+                    ValidAudience = _configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]))
+                };
+            });
             return services;
         }
 
@@ -44,6 +71,7 @@ namespace Infrastructure
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
             services.AddScoped<IPurchaseOrderItemRepository, PurchaseOrderItemRepository>();
+            services.AddScoped<IIdentityService,IdentityService>();
             return services;
         }
     }

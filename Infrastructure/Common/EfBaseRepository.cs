@@ -2,7 +2,6 @@
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Common
 {
@@ -135,12 +134,10 @@ namespace Infrastructure.Common
         {
             return _dbContext.Set<T>().Find(id);
         }
-
         public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbContext.Set<T>().FirstOrDefaultAsync(predicate);
         }
-
         public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> includes)
         {
             IQueryable<T> query = _dbContext.Set<T>();
@@ -149,7 +146,6 @@ namespace Infrastructure.Common
 
             return await query.FirstOrDefaultAsync(predicate);
         }
-
         public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, string includeString)
         {
             IQueryable<T> query = _dbContext.Set<T>();

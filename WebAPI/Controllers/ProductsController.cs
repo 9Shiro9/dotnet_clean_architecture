@@ -2,6 +2,8 @@
 using Application.ViewModels.Product;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using System.Linq;
 
 namespace WebAPI.Controllers
 {
@@ -12,6 +14,7 @@ namespace WebAPI.Controllers
         private readonly IProductService _productService;
         private readonly ILogger<ProductsController> _logger;
 
+    
         public ProductsController(IProductService productService, ILogger<ProductsController> logger)
         {
             _productService = productService;
