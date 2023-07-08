@@ -21,6 +21,7 @@ builder.Services.AddSwaggerGenService();
 
 var app = builder.Build();
 
+
 var localizeOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(localizeOptions.Value);
 
@@ -46,6 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

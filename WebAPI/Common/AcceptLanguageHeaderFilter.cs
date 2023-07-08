@@ -11,7 +11,7 @@ namespace WebAPI.Common
             {
                 In = ParameterLocation.Header,
                 Name = "accept-language",
-                Description = "Pass accept-language: example - en-US or my-MM",
+                Description = "en-US / my-MM",
                 Schema = new OpenApiSchema
                 {
                     Type = "String"

@@ -3,6 +3,7 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using WebAPI.Common;
 using WebAPI.Resources;
 
 namespace WebAPI.Controllers
@@ -26,18 +27,34 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<Supplier>>> GetSuppliers()
+        public async Task<ActionResult<ApiResponse<IEnumerable<Supplier>>>> GetSuppliers()
         {
-            var result = await _supplierService.GetSuppliersAsync();
 
-            if (result  == null)
+            var response = new ApiResponse<IEnumerable<Supplier>>();
+
+            try
             {
-                return NotFound();
+                var suppliers = await _supplierService.GetSuppliersAsync();
+
+                response.Code = StatusCodes.Status200OK;
+
+                if (suppliers != null && suppliers.Any())
+                {
+                    response.Data = suppliers;
+                }
+                else
+                {
+                    response.Message = ApiMessage.RecordNotFound.ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving suppliers.");
+                response.Code = StatusCodes.Status500InternalServerError;
             }
 
-            return Ok(result);
+            return response;
         }
     }
 }
