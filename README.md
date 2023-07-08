@@ -2,6 +2,18 @@
 
 ## Overview
 
+## Technologies
+
+* [ASP.NET Core 6](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
+* [Entity Framework Core 6](https://docs.microsoft.com/en-us/ef/core/)
+* [ASP.NET Core Identity with JWT](https://learn.microsoft.com/en-us/aspnet/core/security/?view=aspnetcore-6.0)
+* [ASP.NET Core web API documentation with Swagger / OpenAPI](https://learn.microsoft.com/en-us/aspnet/core/security/?view=aspnetcore-6.0)
+* [Localization (English/Myanmar)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-6.0)
+* [AutoMapper](https://automapper.org/)
+* [FluentValidation](https://fluentvalidation.net/)
+* [NUnit](https://nunit.org/), [FluentAssertions](https://fluentassertions.com/), [Moq](https://github.com/moq) & [Respawn](https://github.com/jbogard/Respawn)
+* REST API Responses Consistent
+* Tests Projects for All Layers
 ### Domain
 
 This will contain all entities, enums, exceptions, interfaces, types and logic specific to the domain layer.
