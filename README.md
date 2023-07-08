@@ -1,4 +1,4 @@
-# ASP.NET Clean Architecture Boilerplate
+# ASP.NET Core Clean Architecture Boilerplate
 
 ## Overview
 
