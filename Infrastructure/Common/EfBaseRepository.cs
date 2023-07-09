@@ -70,6 +70,22 @@ namespace Infrastructure.Common
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
+        public async Task<IReadOnlyList<T>> GetListAsync(string includeString)
+        {
+            IQueryable<T> query = _dbContext.Set<T>();
+
+            if (!string.IsNullOrWhiteSpace(includeString))
+            {
+                string[] includeStrings = includeString.Split(",");
+
+                foreach (string include in includeStrings)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return await query.ToListAsync();
+        }
         public async Task<IReadOnlyList<T>> GetListAsync(List<Expression<Func<T, object>>> includes)
         {
             IQueryable<T> query = _dbContext.Set<T>();
@@ -86,7 +102,15 @@ namespace Infrastructure.Common
         {
             IQueryable<T> query = _dbContext.Set<T>();
 
-            if (!string.IsNullOrWhiteSpace(includeString)) query = query.Include(includeString);
+            if (!string.IsNullOrWhiteSpace(includeString))
+            {
+                string[] includeStrings = includeString.Split(",");
+
+                foreach (string include in includeStrings)
+                {
+                    query = query.Include(include);
+                }
+            }
 
             if (predicate != null) query = query.Where(predicate);
 
@@ -98,7 +122,15 @@ namespace Infrastructure.Common
 
             if (disableTracking) query = query.AsNoTracking();
 
-            if (!string.IsNullOrWhiteSpace(includeString)) query = query.Include(includeString);
+            if (!string.IsNullOrWhiteSpace(includeString))
+            {
+                string[] includeStrings = includeString.Split(",");
+
+                foreach (string include in includeStrings)
+                {
+                    query = query.Include(include);
+                }
+            }
 
             if (predicate != null) query = query.Where(predicate);
 
@@ -150,7 +182,15 @@ namespace Infrastructure.Common
         {
             IQueryable<T> query = _dbContext.Set<T>();
 
-            if (!string.IsNullOrWhiteSpace(includeString)) query = query.Include(includeString);
+            if (!string.IsNullOrWhiteSpace(includeString))
+            {
+                string[] includeStrings = includeString.Split(",");
+
+                foreach (string include in includeStrings)
+                {
+                    query = query.Include(include);
+                }
+            }
 
             return await query.FirstOrDefaultAsync(predicate);
         }

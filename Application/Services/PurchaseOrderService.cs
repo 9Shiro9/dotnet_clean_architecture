@@ -1,8 +1,8 @@
-﻿using Application.Interfaces;
+﻿using Application.DTOs.PurchaseOrder;
+using Application.Interfaces;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.Extensions.Logging;
-using System.Linq.Expressions;
 
 namespace Application.Services
 {
@@ -21,42 +21,79 @@ namespace Application.Services
             _logger = logger;
         }
 
-        public async Task<bool> AddPurchaseOrder(PurchaseOrder purchaseOrder, IEnumerable<PurchaseOrderItem> purchaseOrderItems)
+        public async Task<string> CreatePurchaseOrder(CreatePurchaseOrderDto createOrder)
         {
             try
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                await _purchaseOrderRepository.AddAsync(purchaseOrder);
-                await _purchaseOrderItemRepository.AddRangeAsync(purchaseOrderItems);
+                var order = new PurchaseOrder(createOrder.OrderNumber,createOrder.TotalPrice,createOrder.TotalQuantity);
+
+                var items=new List<PurchaseOrderItem>();
+
+                foreach (var item in createOrder.Items)
+                {
+                    items.Add(new PurchaseOrderItem(order.Id,item.ProductId,item.Quantity,item.UnitPrice,item.TotalPrice));
+                }
+
+                order.TotalQuantity = items.Sum(x => x.Quantity);
+                order.TotalPrice = items.Sum(x => x.TotalPrice);
+
+                await _purchaseOrderRepository.AddAsync(order);
+                await _purchaseOrderItemRepository.AddRangeAsync(items);
 
                 await _unitOfWork.CommitTransactionAsync();
                 await _unitOfWork.SaveChangesAsync();
 
-                return true;
+                return order.Id;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "{ExceptionType}: {Message}", ex.GetType().Name, ex.Message);
 
                 await _unitOfWork.RollbackTransactionAsync();
-                return false;
+                return string.Empty;
             }
         }
 
-        public async Task<PurchaseOrder> GetPurchaseOrderByIdAsync(string purchaseOrderId)
+        public async Task<PurchaseOrderDto> GetPurchaseOrderByIdAsync(string purchaseOrderId)
         {
-            return await _purchaseOrderRepository.GetByIdAsync(purchaseOrderId);
+            var order = await _purchaseOrderRepository.GetAsync(x => x.Id == purchaseOrderId, "PurchaseOrderItems,PurchaseOrderItems.Product");
+
+            var orderDto = new PurchaseOrderDto(order.OrderNumber,order.OrderDate,order.TotalPrice,order.TotalQuantity);
+
+            foreach (var item in order.PurchaseOrderItems)
+            {
+                orderDto.Items.Add(new PurchaseOrderItemDto(item.ProductId,item.Product.Name,item.Quantity,item.UnitPrice,item.TotalPrice));
+            }
+
+            return orderDto;
         }
 
-        public async Task<IEnumerable<PurchaseOrder>> GetPurchaseOrdersAsync()
+        public async Task<IEnumerable<PurchaseOrderDto>> GetPurchaseOrdersAsync()
         {
-            var include = new List<Expression<Func<PurchaseOrder, object>>>()
-            {
-                s => s.PurchaseOrderItems
-            };
+            var ordersDto = new List<PurchaseOrderDto>();
 
-            return await _purchaseOrderRepository.GetListAsync(include);
+            var orders = await _purchaseOrderRepository.GetListAsync("PurchaseOrderItems,PurchaseOrderItems.Product");
+
+            if(orders == null)
+            {
+                return Enumerable.Empty<PurchaseOrderDto>();
+            }
+
+            foreach (var order in orders)
+            {
+                var orderDto = new PurchaseOrderDto(order.OrderNumber, order.OrderDate, order.TotalPrice, order.TotalQuantity);
+
+                foreach (var item in order.PurchaseOrderItems)
+                {
+                    orderDto.Items.Add(new PurchaseOrderItemDto(item.ProductId, item.Product.Name, item.Quantity, item.UnitPrice, item.TotalPrice));
+                }
+
+                ordersDto.Add(orderDto);
+            }
+
+            return ordersDto;
         }
     }
 }

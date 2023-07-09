@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
                 }
                 else
                 {
-                    response.Message = ApiMessage.RecordNotFound.ToString();
+                    response.Message = ApiResponseMessage.RecordNotFound.ToString();
                 }
 
             }

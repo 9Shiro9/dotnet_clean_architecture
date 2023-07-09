@@ -10,6 +10,8 @@ namespace Infrastructure.Configurations
         {
             builder.HasKey(c => c.Id);
 
+            builder.Property(p => p.TotalPrice).HasPrecision(18, 2);
+
             builder.HasMany(x => x.PurchaseOrderItems).WithOne(x => x.PurchaseOrder).HasForeignKey(x => x.PurchaseOrderId).OnDelete(DeleteBehavior.Cascade);
 
         }

@@ -26,22 +26,22 @@
             if (statusCode >= 200 && statusCode < 300)
             {
                 Status = ApiResponseStatus.Success.ToString();
-                Message = ApiMessage.RequestSuccessful.ToString();
+                Message = ApiResponseMessage.RequestSuccessful.ToString();
             }
             else if (statusCode >= 400 && statusCode < 500)
             {
                 Status = ApiResponseStatus.Error.ToString();
-                Message = ApiMessage.InvalidInputProvided.ToString();
+                Message = ApiResponseMessage.InvalidInputProvided.ToString();
             }
             else if (statusCode >= 500 && statusCode < 600)
             {
                 Status = ApiResponseStatus.Error.ToString();
-                Message = ApiMessage.InternalServerError.ToString();
+                Message = ApiResponseMessage.InternalServerError.ToString();
             }
             else
             {
                 Status = ApiResponseStatus.Error.ToString();
-                Message = ApiMessage.UnexpectedErrorOccurred.ToString();
+                Message = ApiResponseMessage.UnexpectedErrorOccurred.ToString();
             }
         }
     }
@@ -51,7 +51,7 @@
         Success,
         Error
     }
-    public enum ApiMessage
+    public enum ApiResponseMessage
     {
         RequestSuccessful,
         DataRetrievedSuccessfully,

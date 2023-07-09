@@ -1,13 +1,14 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs.PurchaseOrder;
+using Domain.Entities;
 
 namespace Application.Interfaces
 {
     public interface IPurchaseOrderService
     {
-        Task<IEnumerable<PurchaseOrder>> GetPurchaseOrdersAsync();
+        Task<IEnumerable<PurchaseOrderDto>> GetPurchaseOrdersAsync();
 
-        Task<PurchaseOrder> GetPurchaseOrderByIdAsync(string purchaseOrderId);
+        Task<PurchaseOrderDto> GetPurchaseOrderByIdAsync(string purchaseOrderId);
 
-        Task<bool> AddPurchaseOrder(PurchaseOrder purchaseOrder,IEnumerable<PurchaseOrderItem> purchaseOrderItems);
+        Task<string> CreatePurchaseOrder(CreatePurchaseOrderDto createOrder);
     }
 }

@@ -55,6 +55,8 @@ namespace Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     OrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    TotalQuantity = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedByName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -255,38 +257,38 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "PurchaseOrders",
-                columns: new[] { "Id", "CreatedById", "CreatedByName", "CreatedDate", "LastModifiedById", "LastModifiedByName", "LastModifiedDate", "OrderDate", "OrderNumber" },
-                values: new object[] { "1bdf1eb5-8ff3-4883-a0ab-9c9dd27bedc0", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new DateTime(2023, 7, 5, 18, 27, 13, 738, DateTimeKind.Local).AddTicks(3099), "0001" });
+                columns: new[] { "Id", "CreatedById", "CreatedByName", "CreatedDate", "LastModifiedById", "LastModifiedByName", "LastModifiedDate", "OrderDate", "OrderNumber", "TotalPrice", "TotalQuantity" },
+                values: new object[] { "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7211), "0001", 4000m, 3 });
 
             migrationBuilder.InsertData(
                 table: "Suppliers",
                 columns: new[] { "Id", "Address", "CreatedById", "CreatedByName", "CreatedDate", "LastModifiedById", "LastModifiedByName", "LastModifiedDate", "Name" },
-                values: new object[] { "1855b279-6879-40d1-b95a-7292eb017ba4", "Yangon", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "David" });
+                values: new object[] { "3fa7025c-077f-45b7-9eed-bfedb0633dd7", "Yangon", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "David" });
 
             migrationBuilder.InsertData(
                 table: "Suppliers",
                 columns: new[] { "Id", "Address", "CreatedById", "CreatedByName", "CreatedDate", "LastModifiedById", "LastModifiedByName", "LastModifiedDate", "Name" },
-                values: new object[] { "4fee5be4-e7c3-4b8c-83da-89f4d9fe4ebb", "Yangon", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "John Smith" });
+                values: new object[] { "cf5c16bb-e4ea-4aa5-a61c-4d1c2fe201fc", "Yangon", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "John Smith" });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "CreatedById", "CreatedByName", "CreatedDate", "Description", "LastModifiedById", "LastModifiedByName", "LastModifiedDate", "Name", "Price", "Quantity", "SupplierId" },
-                values: new object[] { "be844050-7cd6-458a-acff-61eb6b3cf78b", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "IPhone 12", null, null, null, "IPhone 12", 1500m, 100, "1855b279-6879-40d1-b95a-7292eb017ba4" });
+                values: new object[] { "0fbd7503-7e1d-4045-8fda-c16783ac3b81", null, null, new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7177), "IPhone 11", null, null, null, "IPhone 11", 1000m, 50, "cf5c16bb-e4ea-4aa5-a61c-4d1c2fe201fc" });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "CreatedById", "CreatedByName", "CreatedDate", "Description", "LastModifiedById", "LastModifiedByName", "LastModifiedDate", "Name", "Price", "Quantity", "SupplierId" },
-                values: new object[] { "f9b8f9ed-96f5-48e5-a2ec-03045dceeb71", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "IPhone 11", null, null, null, "IPhone 11", 1000m, 50, "4fee5be4-e7c3-4b8c-83da-89f4d9fe4ebb" });
+                values: new object[] { "7f616879-004f-40ce-b8fc-ae4dc320e298", null, null, new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7191), "IPhone 12", null, null, null, "IPhone 12", 1500m, 100, "3fa7025c-077f-45b7-9eed-bfedb0633dd7" });
 
             migrationBuilder.InsertData(
                 table: "PurchaseOrderItems",
                 columns: new[] { "Id", "CreatedById", "CreatedByName", "CreatedDate", "LastModifiedById", "LastModifiedByName", "LastModifiedDate", "ProductId", "PurchaseOrderId", "Quantity", "TotalPrice", "UnitPrice" },
-                values: new object[] { "3df21fbb-42d8-439f-8175-409b7777fc10", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "f9b8f9ed-96f5-48e5-a2ec-03045dceeb71", "1bdf1eb5-8ff3-4883-a0ab-9c9dd27bedc0", 2, 2000m, 1000m });
+                values: new object[] { "13b44bda-7d43-4dd7-861b-3cf1ffe77ccb", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "0fbd7503-7e1d-4045-8fda-c16783ac3b81", "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c", 1, 1000m, 1000m });
 
             migrationBuilder.InsertData(
                 table: "PurchaseOrderItems",
                 columns: new[] { "Id", "CreatedById", "CreatedByName", "CreatedDate", "LastModifiedById", "LastModifiedByName", "LastModifiedDate", "ProductId", "PurchaseOrderId", "Quantity", "TotalPrice", "UnitPrice" },
-                values: new object[] { "ce893cbd-0c0f-4f2a-8560-c69f64c9dc31", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "be844050-7cd6-458a-acff-61eb6b3cf78b", "1bdf1eb5-8ff3-4883-a0ab-9c9dd27bedc0", 2, 3000m, 1500m });
+                values: new object[] { "df97d132-8dcb-4bd0-a69d-ad3a3001b0f0", null, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "7f616879-004f-40ce-b8fc-ae4dc320e298", "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c", 2, 3000m, 1500m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

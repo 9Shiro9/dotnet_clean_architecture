@@ -21,10 +21,13 @@ namespace Infrastructure.Data
             builder.Entity<Product>().HasData(new[] { product_1, product_2 });
 
             //Orders Seed
-            var order_1 = new PurchaseOrder { Id = Guid.NewGuid().ToString(), OrderNumber = "0001", OrderDate = DateTime.Now };
-            var order_items_1 = new[] { new PurchaseOrderItem{ Id= Guid.NewGuid().ToString(), PurchaseOrderId = order_1.Id, ProductId = product_1.Id, UnitPrice = product_1.Price, Quantity = 2, TotalPrice = 2 * product_1.Price },
-                new PurchaseOrderItem{ Id= Guid.NewGuid().ToString(), PurchaseOrderId = order_1.Id, ProductId = product_2.Id, UnitPrice = product_2.Price, Quantity = 2, TotalPrice = 2 * product_2.Price } };
-           
+            var order_1 = new PurchaseOrder("0001");
+            var order_items_1 = new List<PurchaseOrderItem>();
+            order_items_1.Add(new PurchaseOrderItem(order_1.Id, product_1.Id, 1, product_1.Price, 1 * product_1.Price));
+            order_items_1.Add(new PurchaseOrderItem(order_1.Id, product_2.Id, 2, product_2.Price, 2 * product_2.Price));
+
+            order_1.TotalPrice = order_items_1.Sum(x => x.TotalPrice);
+            order_1.TotalQuantity = order_items_1.Sum(x => x.Quantity);
 
             builder.Entity<PurchaseOrder>().HasData(order_1);
             builder.Entity<PurchaseOrderItem>().HasData(order_items_1);

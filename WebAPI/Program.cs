@@ -45,7 +45,11 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        //disable for schema like Entity,DTO,ViewModel
+        options.DefaultModelsExpandDepth(-1);
+    });
 }
 
 

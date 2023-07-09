@@ -70,23 +70,23 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f9b8f9ed-96f5-48e5-a2ec-03045dceeb71",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = "0fbd7503-7e1d-4045-8fda-c16783ac3b81",
+                            CreatedDate = new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7177),
                             Description = "IPhone 11",
                             Name = "IPhone 11",
                             Price = 1000m,
                             Quantity = 50,
-                            SupplierId = "4fee5be4-e7c3-4b8c-83da-89f4d9fe4ebb"
+                            SupplierId = "cf5c16bb-e4ea-4aa5-a61c-4d1c2fe201fc"
                         },
                         new
                         {
-                            Id = "be844050-7cd6-458a-acff-61eb6b3cf78b",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = "7f616879-004f-40ce-b8fc-ae4dc320e298",
+                            CreatedDate = new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7191),
                             Description = "IPhone 12",
                             Name = "IPhone 12",
                             Price = 1500m,
                             Quantity = 100,
-                            SupplierId = "1855b279-6879-40d1-b95a-7292eb017ba4"
+                            SupplierId = "3fa7025c-077f-45b7-9eed-bfedb0633dd7"
                         });
                 });
 
@@ -119,6 +119,13 @@ namespace Infrastructure.Migrations
                     b.Property<string>("OrderNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TotalQuantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("PurchaseOrders");
@@ -126,10 +133,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1bdf1eb5-8ff3-4883-a0ab-9c9dd27bedc0",
+                            Id = "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderDate = new DateTime(2023, 7, 5, 18, 27, 13, 738, DateTimeKind.Local).AddTicks(3099),
-                            OrderNumber = "0001"
+                            OrderDate = new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7211),
+                            OrderNumber = "0001",
+                            TotalPrice = 4000m,
+                            TotalQuantity = 3
                         });
                 });
 
@@ -184,20 +193,20 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3df21fbb-42d8-439f-8175-409b7777fc10",
+                            Id = "13b44bda-7d43-4dd7-861b-3cf1ffe77ccb",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = "f9b8f9ed-96f5-48e5-a2ec-03045dceeb71",
-                            PurchaseOrderId = "1bdf1eb5-8ff3-4883-a0ab-9c9dd27bedc0",
-                            Quantity = 2,
-                            TotalPrice = 2000m,
+                            ProductId = "0fbd7503-7e1d-4045-8fda-c16783ac3b81",
+                            PurchaseOrderId = "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c",
+                            Quantity = 1,
+                            TotalPrice = 1000m,
                             UnitPrice = 1000m
                         },
                         new
                         {
-                            Id = "ce893cbd-0c0f-4f2a-8560-c69f64c9dc31",
+                            Id = "df97d132-8dcb-4bd0-a69d-ad3a3001b0f0",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = "be844050-7cd6-458a-acff-61eb6b3cf78b",
-                            PurchaseOrderId = "1bdf1eb5-8ff3-4883-a0ab-9c9dd27bedc0",
+                            ProductId = "7f616879-004f-40ce-b8fc-ae4dc320e298",
+                            PurchaseOrderId = "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c",
                             Quantity = 2,
                             TotalPrice = 3000m,
                             UnitPrice = 1500m
@@ -240,14 +249,14 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4fee5be4-e7c3-4b8c-83da-89f4d9fe4ebb",
+                            Id = "cf5c16bb-e4ea-4aa5-a61c-4d1c2fe201fc",
                             Address = "Yangon",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "John Smith"
                         },
                         new
                         {
-                            Id = "1855b279-6879-40d1-b95a-7292eb017ba4",
+                            Id = "3fa7025c-077f-45b7-9eed-bfedb0633dd7",
                             Address = "Yangon",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "David"
