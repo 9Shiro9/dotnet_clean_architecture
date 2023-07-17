@@ -13,12 +13,12 @@ namespace WebAPI.Controllers
     [ApiController]
     public class SuppliersController : ControllerBase
     {
-        private readonly ISupplierService _supplierService;
+        private readonly ICustomerService _supplierService;
         private readonly ILogger<SuppliersController> _logger;
         private readonly IStringLocalizer<SharedResource> _stringLocalizer;
         private readonly IHttpContextAccessor _httpContext;
 
-        public SuppliersController(ISupplierService supplierService, ILogger<SuppliersController> logger, IStringLocalizer<SharedResource> stringLocalizer, IHttpContextAccessor httpContext)
+        public SuppliersController(ICustomerService supplierService, ILogger<SuppliersController> logger, IStringLocalizer<SharedResource> stringLocalizer, IHttpContextAccessor httpContext)
         {
             _supplierService = supplierService;
             _logger = logger;
@@ -27,14 +27,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<IEnumerable<Supplier>>>> GetSuppliers()
+        public async Task<ActionResult<ApiResponse<IEnumerable<Customer>>>> GetSuppliers()
         {
 
-            var response = new ApiResponse<IEnumerable<Supplier>>();
+            var response = new ApiResponse<IEnumerable<Customer>>();
 
             try
             {
-                var suppliers = await _supplierService.GetSuppliersAsync();
+                var suppliers = await _supplierService.GetCustomersAsync();
 
                 response.Code = StatusCodes.Status200OK;
 

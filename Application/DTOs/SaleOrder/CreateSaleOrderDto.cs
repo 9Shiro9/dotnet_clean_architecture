@@ -1,18 +1,19 @@
-﻿namespace Application.DTOs.PurchaseOrder
+﻿namespace Application.DTOs.SaleOrder
 {
-    public class CreatePurchaseOrderDto
+    public class CreateSaleOrderDto
     {
         public string OrderNumber { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
         public int TotalQuantity { get; set; }
+        public string CustomerId { get; set; }
+        public List<CreateSaleOrderItemDto> Items { get; set; }
 
-        public List<CreatePurchaseOrderItemDto> Items { get; set; } 
-
-        public CreatePurchaseOrderDto(string orderNumber, List<CreatePurchaseOrderItemDto> items)
+        public CreateSaleOrderDto(string orderNumber,string customerId, List<CreateSaleOrderItemDto> items)
         {
             OrderDate = DateTime.Now;
             OrderNumber = orderNumber;
+            CustomerId = customerId;
             Items = items;
             TotalPrice= Items.Sum(x => x.TotalPrice);
             TotalQuantity = items.Sum(x => x.Quantity);
@@ -20,16 +21,16 @@
 
     }
 
-    public class CreatePurchaseOrderItemDto
+    public class CreateSaleOrderItemDto
     {
-        public string PurchaseOrderId { get; set; }
+        public string SaleOrderId { get; set; }
         public string ProductId { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
 
-        public CreatePurchaseOrderItemDto() { }
-        public CreatePurchaseOrderItemDto(string _productId, int _quantity, decimal _unitPrice, decimal _totalPrice)
+        public CreateSaleOrderItemDto() { }
+        public CreateSaleOrderItemDto(string _productId, int _quantity, decimal _unitPrice, decimal _totalPrice)
         {
             ProductId = _productId;
             Quantity = _quantity;

@@ -10,10 +10,10 @@ namespace Infrastructure.Configurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(p => p.Price).HasPrecision(18, 2);
+            builder.Property(p => p.SellingPrice).HasPrecision(18, 2);
+            builder.Property(p => p.BuyingPrice).HasPrecision(18, 2);
 
-            builder.HasOne<Supplier>(s => s.Supplier).WithMany(p => p.Products);
-            builder.HasMany<PurchaseOrderItem>(x => x.PurchaseOrderItems).WithOne(x => x.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany<SaleOrderItem>(x => x.SaleOrderItems).WithOne(x => x.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -68,9 +68,9 @@ namespace Infrastructure
             services.AddScoped(typeof(IBaseRepository<>), typeof(EfBaseRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
-            services.AddScoped<IPurchaseOrderItemRepository, PurchaseOrderItemRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ISaleOrderRepository, SaleOrderRepository>();
+            services.AddScoped<ISaleOrderItemRepository, SaleOrderItemRepository>();
             services.AddScoped<IIdentityService,IdentityService>();
             return services;
         }

@@ -12,9 +12,9 @@ namespace Infrastructure
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
-        public DbSet<PurchaseOrderItem> PurchaseOrderItems { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<SaleOrder> SaleOrders { get; set; }
+        public DbSet<SaleOrderItem> SaleOrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

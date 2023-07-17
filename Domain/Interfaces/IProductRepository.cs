@@ -2,6 +2,6 @@
 {
     public interface IProductRepository : IBaseRepository<Product>
     {
-        Task<IEnumerable<Product>> GetProductsBySupplierIdAsync(string supplierId);
+        Task<IEnumerable<Product>> GetProductsByCodeAsync(string code);
     }
 }

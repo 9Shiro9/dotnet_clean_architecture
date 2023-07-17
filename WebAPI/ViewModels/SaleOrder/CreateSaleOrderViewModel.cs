@@ -1,16 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAPI.ViewModels.PurchaseOrder
+namespace WebAPI.ViewModels.SaleOrder
 {
-    public class CreatePurchaseOrderViewModel
+    public class CreateSaleOrderViewModel
     {
         [Required(ErrorMessage = "Required OrderNumber.")]
         public string OrderNumber { get; set; }
 
-        public List<CreatePurchaseOrderItemViewModel> Items { get; set; }
+        [Required(ErrorMessage = "Required CustomerId.")]
+        public string CustomerId { get; set; }
+        public List<CreateSaleOrderItemViewModel> Items { get; set; }
     }
 
-    public class CreatePurchaseOrderItemViewModel
+    public class CreateSaleOrderItemViewModel
     {
         [Required(ErrorMessage = "Required ProductId.")]
         public string ProductId { get; set; }

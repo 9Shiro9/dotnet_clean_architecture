@@ -1,9 +1,8 @@
-﻿using Application.Interfaces;
-using Application.ViewModels.Product;
-using Domain.Entities;
+﻿using Application.DTOs.Product;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
-using System.Linq;
+using WebAPI.Common;
+using WebAPI.ViewModels.Product;
 
 namespace WebAPI.Controllers
 {
@@ -22,61 +21,77 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
+        public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetProducts()
         {
-            var result = await _productService.GetProductsAsync(); 
+            var response = new ApiResponse<IEnumerable<ProductDto>>();
 
-            if(result == null)
-            {
-                return NotFound();
-            }
-            return Ok(result);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProductViewModel>> GetProductById(string id)
-        {
-            var result = await _productService.GetProductByIdAsync(id);
-
-            if(result == null)
-            {
-                return NotFound();
-            }
-            return Ok(result);
-        }
-
-        [HttpGet("supplier/{supplierId}")]
-        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProductsBySupplierId(string supplierId)
-        {
-            var result = await _productService.GetProductsBySupplierIdAsync(supplierId);
+            var result = await _productService.GetProductsAsync();
 
             if (result == null)
             {
-                return NotFound();
+                _logger.LogInformation("There is no record in products.");
+
+                response.Code = StatusCodes.Status204NoContent;
+                response.Status = ApiResponseStatus.Success.ToString();
+                response.Message = ApiResponseMessage.RecordNotFound.ToString();
+
+                return response;
             }
-            return Ok(result);
+
+            response.Code = StatusCodes.Status200OK;
+            response.Data = result;
+
+            return response;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ApiResponse<ProductDto>>> GetProductById(string id)
+        {
+            var response = new ApiResponse<ProductDto>();
+
+            var result = await _productService.GetProductByIdAsync(id);
+
+            if (result == null)
+            {
+                response.Code = StatusCodes.Status204NoContent;
+                response.Status = ApiResponseStatus.Success.ToString();
+                response.Message = ApiResponseMessage.RecordNotFound.ToString();
+
+                return response;
+            }
+
+            response.Code = StatusCodes.Status200OK;
+            response.Data = result;
+
+            return response;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductCreateViewModel model)
+        public async Task<ActionResult<ApiResponse<ProductDto>>> AddProduct(CreateProductViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var product = new Product()
-                {
-                    Name = model.Name,
-                    Description = model.Description,
-                    Price = model.Price,
-                    Quantity = model.Quantity,
-                    SupplierId = model.SupplierId
-                };
+                var response = new ApiResponse<ProductDto>();
 
-                var result = await _productService.AddProductAsync(product);
+                var createProductDto =new CreateProductDto(model.Code,model.Description,model.BuyingPrice,model.SellingPrice,model.Quantity);
 
-                if (result)
+                var id = await _productService.AddProductAsync(createProductDto);
+
+                if (string.IsNullOrEmpty(id))
                 {
-                    return Ok(result);
+                    response.Code = StatusCodes.Status204NoContent;
+                    response.Status = ApiResponseStatus.Success.ToString();
+                    response.Message = ApiResponseMessage.RecordNotFound.ToString();
+
+                    return response;
                 }
+
+                var result = await _productService.GetProductByIdAsync(id);
+
+                response.Code = StatusCodes.Status200OK;
+                response.Data = result;
+
+                return response;
             }
             return BadRequest();
         }

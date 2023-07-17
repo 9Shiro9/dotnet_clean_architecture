@@ -11,9 +11,9 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public async Task<IEnumerable<Product>> GetProductsBySupplierIdAsync(string supplierId)
+        public async Task<IEnumerable<Product>> GetProductsByCodeAsync(string code)
         {
-            return await _dbContext.Products.Include(x => x.Supplier).Where(x => x.SupplierId == supplierId).ToListAsync();
+            return await _dbContext.Products.Where(x => x.Code == code).ToListAsync();
         }
     }
 }

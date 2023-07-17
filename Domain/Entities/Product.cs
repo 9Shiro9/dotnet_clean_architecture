@@ -7,16 +7,24 @@
             Id = Guid.NewGuid().ToString();
             CreatedDate = DateTime.Now;
         }
+
+        public Product(string _code,string _description,decimal _buyingPrice,decimal _sellingPrice,int _quantity)
+        {
+            Id = Guid.NewGuid().ToString();
+            CreatedDate = DateTime.Now;
+            Code = _code;
+            Description = _description;
+            BuyingPrice = _buyingPrice;
+            SellingPrice = _sellingPrice;
+            Quantity = _quantity;
+        }
+
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string Code { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
+        public decimal BuyingPrice { get; set; }
+        public decimal SellingPrice { get; set; }
         public int Quantity { get; set; }
-        // Additional properties as needed
-
-        public string SupplierId { get; set; }
-        public virtual Supplier Supplier { get; set; }
-
-        public virtual ICollection<PurchaseOrderItem> PurchaseOrderItems { get; set; }
+        public virtual ICollection<SaleOrderItem> SaleOrderItems { get; set; }
     }
 }

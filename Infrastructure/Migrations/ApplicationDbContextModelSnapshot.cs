@@ -22,10 +22,57 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Domain.Entities.Customer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedByName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedByName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("BuyingPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedById")
                         .HasColumnType("nvarchar(max)");
@@ -48,49 +95,19 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("SupplierId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<decimal>("SellingPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SupplierId");
-
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "0fbd7503-7e1d-4045-8fda-c16783ac3b81",
-                            CreatedDate = new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7177),
-                            Description = "IPhone 11",
-                            Name = "IPhone 11",
-                            Price = 1000m,
-                            Quantity = 50,
-                            SupplierId = "cf5c16bb-e4ea-4aa5-a61c-4d1c2fe201fc"
-                        },
-                        new
-                        {
-                            Id = "7f616879-004f-40ce-b8fc-ae4dc320e298",
-                            CreatedDate = new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7191),
-                            Description = "IPhone 12",
-                            Name = "IPhone 12",
-                            Price = 1500m,
-                            Quantity = 100,
-                            SupplierId = "3fa7025c-077f-45b7-9eed-bfedb0633dd7"
-                        });
                 });
 
-            modelBuilder.Entity("Domain.Entities.PurchaseOrder", b =>
+            modelBuilder.Entity("Domain.Entities.SaleOrder", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -103,6 +120,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastModifiedById")
                         .HasColumnType("nvarchar(max)");
@@ -128,21 +148,12 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PurchaseOrders");
+                    b.HasIndex("CustomerId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderDate = new DateTime(2023, 7, 9, 18, 43, 2, 163, DateTimeKind.Local).AddTicks(7211),
-                            OrderNumber = "0001",
-                            TotalPrice = 4000m,
-                            TotalQuantity = 3
-                        });
+                    b.ToTable("SaleOrders");
                 });
 
-            modelBuilder.Entity("Domain.Entities.PurchaseOrderItem", b =>
+            modelBuilder.Entity("Domain.Entities.SaleOrderItem", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -165,10 +176,10 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ProductId")
+                    b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PurchaseOrderId")
+                    b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Quantity")
@@ -184,83 +195,11 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrderId");
+
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("PurchaseOrderId");
-
-                    b.ToTable("PurchaseOrderItems");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "13b44bda-7d43-4dd7-861b-3cf1ffe77ccb",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = "0fbd7503-7e1d-4045-8fda-c16783ac3b81",
-                            PurchaseOrderId = "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c",
-                            Quantity = 1,
-                            TotalPrice = 1000m,
-                            UnitPrice = 1000m
-                        },
-                        new
-                        {
-                            Id = "df97d132-8dcb-4bd0-a69d-ad3a3001b0f0",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = "7f616879-004f-40ce-b8fc-ae4dc320e298",
-                            PurchaseOrderId = "d9b85ef7-8b8d-4da2-a31a-657f58f28a7c",
-                            Quantity = 2,
-                            TotalPrice = 3000m,
-                            UnitPrice = 1500m
-                        });
-                });
-
-            modelBuilder.Entity("Domain.Entities.Supplier", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedByName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedById")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastModifiedByName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Suppliers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "cf5c16bb-e4ea-4aa5-a61c-4d1c2fe201fc",
-                            Address = "Yangon",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "John Smith"
-                        },
-                        new
-                        {
-                            Id = "3fa7025c-077f-45b7-9eed-bfedb0633dd7",
-                            Address = "Yangon",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "David"
-                        });
+                    b.ToTable("SaleOrderItems");
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.ApplicationRole", b =>
@@ -460,30 +399,30 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.Product", b =>
+            modelBuilder.Entity("Domain.Entities.SaleOrder", b =>
                 {
-                    b.HasOne("Domain.Entities.Supplier", "Supplier")
-                        .WithMany("Products")
-                        .HasForeignKey("SupplierId");
+                    b.HasOne("Domain.Entities.Customer", "Customer")
+                        .WithMany("SaleOrders")
+                        .HasForeignKey("CustomerId");
 
-                    b.Navigation("Supplier");
+                    b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("Domain.Entities.PurchaseOrderItem", b =>
+            modelBuilder.Entity("Domain.Entities.SaleOrderItem", b =>
                 {
-                    b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("PurchaseOrderItems")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("Domain.Entities.SaleOrder", "SaleOrder")
+                        .WithMany("SaleOrderItems")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Domain.Entities.PurchaseOrder", "PurchaseOrder")
-                        .WithMany("PurchaseOrderItems")
-                        .HasForeignKey("PurchaseOrderId")
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("SaleOrderItems")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Product");
 
-                    b.Navigation("PurchaseOrder");
+                    b.Navigation("SaleOrder");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -537,19 +476,19 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("SaleOrders");
+                });
+
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.Navigation("PurchaseOrderItems");
+                    b.Navigation("SaleOrderItems");
                 });
 
-            modelBuilder.Entity("Domain.Entities.PurchaseOrder", b =>
+            modelBuilder.Entity("Domain.Entities.SaleOrder", b =>
                 {
-                    b.Navigation("PurchaseOrderItems");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Supplier", b =>
-                {
-                    b.Navigation("Products");
+                    b.Navigation("SaleOrderItems");
                 });
 #pragma warning restore 612, 618
         }

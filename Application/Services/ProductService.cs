@@ -1,106 +1,80 @@
-﻿using Application.Interfaces;
-using Application.ViewModels.Product;
+﻿using Application.DTOs.Product;
+using Application.Interfaces;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.Extensions.Logging;
-using System.Linq.Expressions;
 
 namespace Application.Services
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        private readonly ISupplierRepository _supplierRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ProductService> _logger;
 
-        public ProductService(IProductRepository productRepository, ISupplierRepository supplierRepository, IUnitOfWork unitOfWork, ILogger<ProductService> logger)
+        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork, ILogger<ProductService> logger)
         {
             _productRepository = productRepository;
-            _supplierRepository = supplierRepository;
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
-
-        public async Task<bool> AddProductAsync(Product product)
+        public async Task<string> AddProductAsync(CreateProductDto createProduct)
         {
             try
             {
+                var product = new Product(createProduct.Code, createProduct.Description, createProduct.BuyingPrice, createProduct.SellingPrice, createProduct.Quantity);
+
                 await _productRepository.AddAsync(product);
                 await _unitOfWork.SaveChangesAsync();
-                return true;
+
+                return product.Id;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "{ExceptionType}: {Message}", ex.GetType().Name, ex.Message);
-                return false;
+                return string.Empty;
             }
         }
 
-        public async Task<ProductViewModel> GetProductByIdAsync(string id)
+        public async Task<ProductDto> GetProductByIdAsync(string id)
         {
-            var product = await _productRepository.GetAsync(x => x.Id == id, "Supplier");
+            var product = await _productRepository.GetByIdAsync(id);
 
             if (product == null)
             {
                 return null;
             }
 
-            return BindModel(product);
+            return BindData(product);
         }
 
-        public async Task<IEnumerable<ProductViewModel>> GetProductsAsync()
+        public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
-            List<ProductViewModel> models = new List<ProductViewModel>();
+            var productDTOs = new List<ProductDto>();
 
-            var include = new List<Expression<Func<Product, object>>>()
+            var products = await _productRepository.GetListAsync();
+
+            foreach (var product in products)
             {
-                s => s.Supplier
-            };
-
-            var products = await _productRepository.GetListAsync(include);
-
-            if (products == null)
-                return Enumerable.Empty<ProductViewModel>();
-
-            foreach (var item in products)
-            {
-                models.Add(BindModel(item));
+                productDTOs.Add(BindData(product));
             }
 
-            return models;
+            return productDTOs;
         }
-
-        public async Task<IEnumerable<ProductViewModel>> GetProductsBySupplierIdAsync(string supplierId)
-        {
-            List<ProductViewModel> models = new List<ProductViewModel>();
-
-            var products = await _productRepository.GetListAsync(x => x.SupplierId == supplierId, "Supplier");
-
-            if (!products.Any())
-                return Enumerable.Empty<ProductViewModel>();
-
-            foreach (var item in products)
-            {
-                models.Add(BindModel(item));
-            }
-
-            return models;
-        }
-
-        private ProductViewModel BindModel(Product item)
+        private ProductDto BindData(Product item)
         {
             return
-                new ProductViewModel()
+                new ProductDto()
                 {
                     Id = item.Id,
-                    Name = item.Name,
+                    Code = item.Code,
                     Description = item.Description,
-                    Price = item.Price,
-                    Quantity = item.Quantity,
-                    SupplierId = item.SupplierId,
-                    SupplierName = item.Supplier.Name
+                    SellingPrice = item.SellingPrice,
+                    BuyingPrice = item.BuyingPrice,
+                    Quantity = item.Quantity
                 };
         }
+
+       
     }
 }

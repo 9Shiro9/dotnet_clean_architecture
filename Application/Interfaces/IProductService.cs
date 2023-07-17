@@ -1,17 +1,14 @@
-﻿using Application.ViewModels.Product;
-using Domain.Entities;
+﻿using Application.DTOs.Product;
 
 namespace Application.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductViewModel>> GetProductsAsync();
+        Task<IEnumerable<ProductDto>> GetProductsAsync();
 
-        Task<ProductViewModel> GetProductByIdAsync(string id);
+        Task<ProductDto> GetProductByIdAsync(string id);
 
-        Task<IEnumerable<ProductViewModel>> GetProductsBySupplierIdAsync(string supplierId);
-
-        Task<bool> AddProductAsync(Product product);
+        Task<string> AddProductAsync(CreateProductDto createProduct);
 
     }
 }
