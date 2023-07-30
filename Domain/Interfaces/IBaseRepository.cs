@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Domain.Interfaces
 {
-    public interface IBaseRepository<T> where T : BaseEntity
+    public interface IBaseRepository<T> where T : IBaseEntity
     {
 
         #region Insert
@@ -39,6 +39,5 @@ namespace Domain.Interfaces
         Task<T> GetAsync(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> includes);
         Task<T> GetAsync(Expression<Func<T, bool>> predicate,string includeString);
 
-        IQueryable Queryable();
     }
 }

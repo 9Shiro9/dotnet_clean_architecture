@@ -18,9 +18,9 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<IdentityResponseDto>> GetTokenAsync(string userName, string password)
         {
-            var result = await _identityService.AuthorizeAsync(userName, password);
+            //var result = await _identityService.AuthorizeAsync(userName, password);
             
-            return Ok(result);
+            return Ok(200);
         }
     }
 }

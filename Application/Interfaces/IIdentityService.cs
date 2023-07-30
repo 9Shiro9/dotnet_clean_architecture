@@ -1,10 +1,11 @@
-﻿using Domain.DTOs;
+﻿using Application.Identity;
 
 namespace Application.Interfaces
 {
     public interface IIdentityService
     {
-        Task<IdentityResponseDto> AuthorizeAsync(string username, string password);
-
+        Task<string> RegisterAsync(ApplicationIdentityRegister register);
+        Task<ApplicationIdentityTokenResponse> GetTokenAsync(ApplicationIdentityTokenRequest request);
+        Task<ApplicationIdentityTokenResponse> GetRefreshTokenAsync(string jwtToken);
     }
 }

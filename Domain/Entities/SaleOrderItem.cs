@@ -4,7 +4,7 @@
     {
         public SaleOrderItem()
         {
-            
+
         }
         public SaleOrderItem(string orderId, string productId, int quantity, decimal unitPrice, decimal totalPrice)
         {
