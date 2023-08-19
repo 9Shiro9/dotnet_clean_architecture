@@ -6,11 +6,11 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class TokenController : ControllerBase
     {
         private readonly IIdentityService _identityService;
 
-        public AuthController(IIdentityService identityService)
+        public TokenController(IIdentityService identityService)
         {
             _identityService = identityService;
         }
