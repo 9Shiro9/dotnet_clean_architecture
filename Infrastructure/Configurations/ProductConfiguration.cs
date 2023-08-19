@@ -8,12 +8,11 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(x => x.Id);
-
+            builder.HasKey(x => x.ProductId);
             builder.Property(p => p.SellingPrice).HasPrecision(18, 2);
             builder.Property(p => p.BuyingPrice).HasPrecision(18, 2);
-
-            builder.HasMany<SaleOrderItem>(x => x.SaleOrderItems).WithOne(x => x.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne<Category>(x => x.Category).WithMany(x => x.Products).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasMany<SaleOrderItem>(x => x.SaleOrderItems).WithOne(x => x.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

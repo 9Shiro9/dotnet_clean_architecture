@@ -1,29 +1,27 @@
 ﻿namespace Domain.Entities
 {
-    public class Product : BaseAuditEntity
+    public class Product : BaseEntity
     {
         public Product()
         {
-            Id = Guid.NewGuid().ToString();
-            CreatedDate = DateTime.Now;
+            ProductId = Guid.NewGuid().ToString();
         }
-
-        public Product(string _code,string _description,decimal _buyingPrice,decimal _sellingPrice,int _quantity)
+        public Product(string code, string description, string categoryId, decimal buyingPrice, decimal sellingPrice, int quantity)
         {
-            Id = Guid.NewGuid().ToString();
-            CreatedDate = DateTime.Now;
-            Code = _code;
-            Description = _description;
-            BuyingPrice = _buyingPrice;
-            SellingPrice = _sellingPrice;
-            Quantity = _quantity;
+            ProductId = Guid.NewGuid().ToString();
+            Code = code;
+            Description = description;
+            CategoryId = categoryId;
+            BuyingPrice = buyingPrice;
+            SellingPrice = sellingPrice;
+            Quantity = quantity;
         }
 
-        public string Id { get; set; }
+        public string ProductId { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }
-        public string ProductTypeId { get; set; }
-        public virtual ProductType ProductType { get; set; }
+        public string CategoryId { get; set; }
+        public virtual Category Category { get; set; }
         public decimal BuyingPrice { get; set; }
         public decimal SellingPrice { get; set; }
         public int Quantity { get; set; }

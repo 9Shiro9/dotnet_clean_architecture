@@ -1,11 +1,10 @@
-﻿using Domain.Common;
-using Domain.Identity;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity
 {
-    public class ApplicationUser : IdentityUser<Guid> , IBaseEntity
+    public class ApplicationUser : IdentityUser<Guid>
     {
-        public List<RefreshToken> RefreshTokens { get; set; }
+        public string RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

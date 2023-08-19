@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7DCAFF89-B71C-4F00-BBB4-1D0D0671EAF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "Tests\Application.UnitTests\Application.UnitTests.csproj", "{70F52F28-70F4-4B14-91B4-6346AB147194}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "Tests\Application.UnitTests\Application.UnitTests.csproj", "{70F52F28-70F4-4B14-91B4-6346AB147194}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UnitTests", "Tests\Domain.UnitTests\Domain.UnitTests.csproj", "{16E54FC9-F422-4929-ABF7-AC91218C6A0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.UnitTests", "Tests\Domain.UnitTests\Domain.UnitTests.csproj", "{16E54FC9-F422-4929-ABF7-AC91218C6A0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.IntegrationTests", "Tests\Infrastructure.IntegrationTests\Infrastructure.IntegrationTests.csproj", "{EF9FEBB9-ED30-4F1E-ADB6-8A01B2F0B30A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.IntegrationTests", "Tests\Infrastructure.IntegrationTests\Infrastructure.IntegrationTests.csproj", "{EF9FEBB9-ED30-4F1E-ADB6-8A01B2F0B30A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMudBlazor", "WebMudBlazor\WebMudBlazor.csproj", "{2EBD0B31-3C08-4986-AC8F-43B329E4608C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{EF9FEBB9-ED30-4F1E-ADB6-8A01B2F0B30A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF9FEBB9-ED30-4F1E-ADB6-8A01B2F0B30A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF9FEBB9-ED30-4F1E-ADB6-8A01B2F0B30A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBD0B31-3C08-4986-AC8F-43B329E4608C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBD0B31-3C08-4986-AC8F-43B329E4608C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBD0B31-3C08-4986-AC8F-43B329E4608C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBD0B31-3C08-4986-AC8F-43B329E4608C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

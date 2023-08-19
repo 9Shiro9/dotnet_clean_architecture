@@ -8,11 +8,9 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<SaleOrderItem> builder)
         {
-            builder.HasKey(x => x.Id);
-
-            builder.Property(p => p.TotalPrice).HasPrecision(18, 2);
+            builder.HasKey(x => x.SaleOrderItemId);
             builder.Property(p => p.UnitPrice).HasPrecision(18, 2);
-
+            builder.Property(p => p.Total).HasPrecision(18, 2);
             builder.HasOne(v => v.Product).WithMany(x => x.SaleOrderItems);
             builder.HasOne(o => o.SaleOrder).WithMany(x => x.SaleOrderItems);
         }

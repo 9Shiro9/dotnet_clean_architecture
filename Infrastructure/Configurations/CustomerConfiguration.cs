@@ -8,12 +8,8 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.SaleOrders).WithOne(x => x.Customer);
+            builder.HasKey(x => x.CustomerId);
+            builder.HasMany(x => x.SaleOrders).WithOne(x => x.Customer).HasForeignKey(x => x.CustomerId);
         }
     }
-
-   
-
-   
 }

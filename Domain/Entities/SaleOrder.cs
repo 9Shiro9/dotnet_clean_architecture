@@ -1,30 +1,27 @@
 ﻿namespace Domain.Entities
 {
-    public class SaleOrder : BaseAuditEntity
+    public class SaleOrder : BaseEntity
     {
-        public string Id { get; set; }
-        public string OrderNumber { get; set; }
-        public DateTime OrderDate { get; set; }
-        public decimal TotalPrice { get; set; }
-        public int TotalQuantity { get; set; }
-        public string CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
-        public virtual ICollection<SaleOrderItem> SaleOrderItems { get; set; }
-
         public SaleOrder()
         {
-            Id = Guid.NewGuid().ToString();
-            CreatedDate = DateTime.Now;
-
+            SaleOrderId = Guid.NewGuid().ToString();
         }
-
-        public SaleOrder(string orderNumber, DateTime orderDate, decimal totalPrice, int totalQuantity, string customerId)
+        public SaleOrder(string orderNumber, DateTime orderDate, string customerId)
         {
+            SaleOrderId = Guid.NewGuid().ToString();
             OrderNumber = orderNumber;
             OrderDate = orderDate;
-            TotalPrice = totalPrice;
-            TotalQuantity = totalQuantity;
             CustomerId = customerId;
         }
+
+        public string SaleOrderId { get; set; }
+        public string OrderNumber { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string CustomerId { get; set; }
+        public virtual Customer Customer { get; set; }
+        public int Quantity { get; set; }
+        public decimal Subtotal { get; set; }
+        public virtual ICollection<SaleOrderItem> SaleOrderItems { get; set; }
     }
+
 }

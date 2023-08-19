@@ -1,9 +1,8 @@
-﻿using Domain.Common;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Domain.Interfaces
+namespace Domain.Common
 {
-    public interface IBaseRepository<T> where T : IBaseEntity
+    public interface IBaseRepository<T> where T : class
     {
 
         #region Insert
@@ -28,8 +27,8 @@ namespace Domain.Interfaces
         Task<IReadOnlyList<T>> GetListAsync(string includeString);
         Task<IReadOnlyList<T>> GetListAsync(List<Expression<Func<T, object>>> includes);
         Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate);
-        Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate,string includeString);
-        Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeString,bool disableTracking);
+        Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate, string includeString);
+        Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeString, bool disableTracking);
         Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, List<Expression<Func<T, object>>> includes, bool disableTracking);
 
         Task<T> GetByIdAsync(object Id);
@@ -37,7 +36,7 @@ namespace Domain.Interfaces
 
         Task<T> GetAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetAsync(Expression<Func<T, bool>> predicate, List<Expression<Func<T, object>>> includes);
-        Task<T> GetAsync(Expression<Func<T, bool>> predicate,string includeString);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate, string includeString);
 
     }
 }

@@ -27,17 +27,17 @@ namespace Application.Services
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                var order = new SaleOrder(createOrder.OrderNumber,createOrder.OrderDate,createOrder.TotalPrice,createOrder.TotalQuantity,createOrder.CustomerId);
+                var order = new SaleOrder(createOrder.OrderNumber,createOrder.OrderDate,createOrder.CustomerId);
 
                 var items = new List<SaleOrderItem>();
 
                 foreach (var item in createOrder.Items)
                 {
-                    items.Add(new SaleOrderItem(order.Id, item.ProductId, item.Quantity, item.UnitPrice, item.TotalPrice));
+                    items.Add(new SaleOrderItem(order.SaleOrderId,item.ProductId,item.Quantity,item.UnitPrice));
                 }
 
-                order.TotalQuantity = items.Sum(x => x.Quantity);
-                order.TotalPrice = items.Sum(x => x.TotalPrice);
+                order.Quantity = items.Sum(x => x.Quantity);
+                order.Subtotal = items.Sum(x => x.Total);
 
                 await _saleOrderRepository.AddAsync(order);
                 await _saleOrderItemRepository.AddRangeAsync(items);
@@ -45,7 +45,7 @@ namespace Application.Services
                 await _unitOfWork.CommitTransactionAsync();
                 await _unitOfWork.SaveChangesAsync();
 
-                return order.Id;
+                return order.SaleOrderId;
             }
             catch (Exception ex)
             {
@@ -58,13 +58,13 @@ namespace Application.Services
 
         public async Task<SaleOrderDto> GetSaleOrderByIdAsync(string orderId)
         {
-            var order = await _saleOrderRepository.GetAsync(x => x.Id == orderId, "SaleOrderItems,Customer,SaleOrderItems.Product");
+            var order = await _saleOrderRepository.GetAsync(x => x.SaleOrderId == orderId, "SaleOrderItems,Customer,SaleOrderItems.Product");
 
-            var orderDto = new SaleOrderDto(order.OrderNumber, order.OrderDate, order.TotalPrice, order.TotalQuantity, order.CustomerId, order.Customer.Name);
+            var orderDto = new SaleOrderDto(order.OrderNumber, order.OrderDate, order.Subtotal, order.Quantity, order.CustomerId, order.Customer.Name);
 
             foreach (var item in order.SaleOrderItems)
             {
-                orderDto.Items.Add(new SaleOrderItemDto(item.ProductId, item.Product.Code, item.Quantity, item.UnitPrice, item.TotalPrice));
+                orderDto.Items.Add(new SaleOrderItemDto(item.ProductId, item.Product.Code, item.Quantity, item.UnitPrice, item.Total));
             }
 
             return orderDto;
@@ -83,11 +83,11 @@ namespace Application.Services
 
             foreach (var order in orders)
             {
-                var orderDto = new SaleOrderDto(order.OrderNumber, order.OrderDate, order.TotalPrice, order.TotalQuantity, order.CustomerId, order.Customer.Name);
+                var orderDto = new SaleOrderDto(order.OrderNumber, order.OrderDate, order.Subtotal, order.Quantity, order.CustomerId, order.Customer.Name);
 
                 foreach (var item in order.SaleOrderItems)
                 {
-                    orderDto.Items.Add(new SaleOrderItemDto(item.ProductId, item.Product.Code, item.Quantity, item.UnitPrice, item.TotalPrice));
+                    orderDto.Items.Add(new SaleOrderItemDto(item.ProductId, item.Product.Code, item.Quantity, item.UnitPrice, item.Total));
                 }
 
                 ordersDto.Add(orderDto);
@@ -104,11 +104,11 @@ namespace Application.Services
 
             foreach (var order in orders)
             {
-                var orderDto = new SaleOrderDto(order.OrderNumber,order.OrderDate,order.TotalPrice,order.TotalQuantity,order.CustomerId,order.Customer.Name);
+                var orderDto = new SaleOrderDto(order.OrderNumber,order.OrderDate,order.Subtotal,order.Quantity,order.CustomerId,order.Customer.Name);
       
                 foreach (var item in order.SaleOrderItems)
                 {
-                    orderDto.Items.Add(new SaleOrderItemDto(item.ProductId, item.Product.Code, item.Quantity, item.UnitPrice, item.TotalPrice));
+                    orderDto.Items.Add(new SaleOrderItemDto(item.ProductId, item.Product.Code, item.Quantity, item.UnitPrice, item.Total));
                 }
 
                 ordersDto.Add(orderDto);

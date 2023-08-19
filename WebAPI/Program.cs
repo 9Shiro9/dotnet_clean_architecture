@@ -13,10 +13,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddInfrastructure();
 builder.Services.AddApplicationServices();
 builder.Services.AddLocalizationService();
 builder.Services.AddSwaggerGenService();
+
+builder.Services.AddHttpClient();
 
 
 var app = builder.Build();

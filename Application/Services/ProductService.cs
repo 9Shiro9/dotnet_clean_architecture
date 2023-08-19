@@ -22,12 +22,12 @@ namespace Application.Services
         {
             try
             {
-                var product = new Product(createProduct.Code, createProduct.Description, createProduct.BuyingPrice, createProduct.SellingPrice, createProduct.Quantity);
+                var product = new Product(createProduct.Code,createProduct.Description,createProduct.CategoryId,createProduct.BuyingPrice,createProduct.SellingPrice,createProduct.Quantity);
 
                 await _productRepository.AddAsync(product);
                 await _unitOfWork.SaveChangesAsync();
 
-                return product.Id;
+                return product.ProductId;
             }
             catch (Exception ex)
             {
@@ -66,7 +66,7 @@ namespace Application.Services
             return
                 new ProductDto()
                 {
-                    Id = item.Id,
+                    Id = item.ProductId,
                     Code = item.Code,
                     Description = item.Description,
                     SellingPrice = item.SellingPrice,

@@ -1,11 +1,13 @@
 ﻿using Application.DTOs.Product;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Common;
 using WebAPI.ViewModels.Product;
 
 namespace WebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
